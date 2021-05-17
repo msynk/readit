@@ -7,13 +7,13 @@
     "start": "electron .",
     "watch": "nodemon --exec npm start",
     "build": "electron-builder",
-    "build-win": "electron-builder -w",
-    "build-lin": "electron-builder -l",
-    "build-mac": "electron-builder -m"
+    "cert": "electron-builder create-self-signed-cert -p msynk"
   },
   "repository": "https://github.com/msynk/readit",
   "homepage": "https://github.com/msynk/readit",
-  "keywords": ["readit"],
+  "keywords": [
+    "readit"
+  ],
   "author": "msynk",
   "license": "ISC",
   "devDependencies": {
@@ -23,5 +23,27 @@
   },
   "dependencies": {
     "electron-window-state": "^5.0.3"
+  },
+  "build": {
+    "appId": "com.msynk.readit",
+    "copyright": "Copyright @ 2021 msynk",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dmg"
+    },
+    "win": {
+      "target": [
+        "zip",
+        "nsis",
+        "msi"
+      ],
+      "certificateFile": "private/msynk.pfx",
+      "certificatePassword": "",
+      "verifyUpdateCodeSignature": false,
+      "publisherName": "msynk"
+    },
+    "linux": {
+      "category": "Utility"
+    }
   }
 }
