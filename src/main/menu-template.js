@@ -1,4 +1,5 @@
-const { Menu, shell, ipcMain } = require('electron')
+const { shell } = require('electron')
+
 module.exports = mainWinContents => {
     const template = [
         {
@@ -55,7 +56,15 @@ module.exports = mainWinContents => {
 
     if (process.platform === 'darwin') template.unshift({ role: 'appMenu' })
 
-    const menu = Menu.buildFromTemplate(template)
+    if (process.env.NODE_ENV !== 'production') {
+        template.push({
+            label: 'Develop',
+            submenu: [
+                { role: 'reload' },
+                { role: 'toggleDevTools' }
+            ]
+        });
+    }
 
-    Menu.setApplicationMenu(menu)
+    return template;
 }

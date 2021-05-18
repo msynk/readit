@@ -2,11 +2,12 @@
   "name": "Readit",
   "version": "1.0.0",
   "description": "Readit Electron Application",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "watch": "nodemon --exec npm start",
     "build": "electron-builder",
+    "publish": "electron-builder -p 'onTagOrDraft'",
     "cert": "electron-builder create-self-signed-cert -p msynk"
   },
   "repository": "https://github.com/msynk/readit",
@@ -27,16 +28,13 @@
   "build": {
     "appId": "com.msynk.readit",
     "copyright": "Copyright @ 2021 msynk",
+    "publish": {
+      "provider": "github"
+    },
     "mac": {
-      "category": "public.app-category.productivity",
-      "target": "dmg"
+      "category": "public.app-category.productivity"
     },
     "win": {
-      "target": [
-        "zip",
-        "nsis",
-        "msi"
-      ],
       "certificateFile": "private/msynk.pfx",
       "certificatePassword": "",
       "verifyUpdateCodeSignature": false,
