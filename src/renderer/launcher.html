@@ -1,15 +1,17 @@
 <head>
   <style>
     div {
-        -webkit-app-region: drag;
-        background-color: rgba(0, 0, 0, 0.75);
-        border-radius: 15px;
-        color: white;
-        padding: 10px;
-      }
-      p {
-        -webkit-app-region: none;
-      }
+      -webkit-app-region: drag;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-radius: 15px;
+      color: white;
+      padding: 10px;
+    }
+    p,
+    button,
+    input {
+      -webkit-app-region: none;
+    }
   </style>
 </head>
 <body>
@@ -20,5 +22,26 @@
       <span id="chrome-version"></span>, and Electron
       <span id="electron-version"></span>.
     </p>
+    <div>
+      <button onclick="message()">Click</button><br />
+      <button onclick="broadcast()">BroadCast =></button><input type="text" />
+    </div>
   </div>
+  <script src="sw-registration.js"></script>
+  <script>
+    const input = document.querySelector("input");
+    function message(e) {
+      console.log("sending the message");
+      navigator.serviceWorker.controller.postMessage("hellow from launcher");
+    }
+    function broadcast() {
+      const value = input.value;
+      if (!value) return;
+      console.log("broadcasting...");
+      navigator.serviceWorker.controller.postMessage({
+        type: "broadcast",
+        payload: value,
+      });
+    }
+  </script>
 </body>

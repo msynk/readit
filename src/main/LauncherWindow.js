@@ -4,7 +4,7 @@ class LauncherWindow extends BrowserWindow {
     constructor(filePath) {
         super({
             width: 400,
-            height: 200,
+            height: 300,
             frame: false,
             resizable: false,
             show: false,
@@ -13,9 +13,12 @@ class LauncherWindow extends BrowserWindow {
             webPreferences: {
                 backgroundThrottling: true
             }
-        });
-        this.loadFile(filePath);
-        this.on('blur', this.onBlur.bind(this));
+        })
+
+        //this.webContents.openDevTools()
+
+        this.loadFile(filePath)
+        this.on('blur', this.onBlur.bind(this))
     }
 
     onBlur() {

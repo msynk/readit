@@ -19,6 +19,8 @@ class MainWindow extends BrowserWindow {
             }
         })
 
+        //this.webContents.openDevTools()
+
         const menu = Menu.buildFromTemplate(menuTemplate(this.webContents))
 
         Menu.setApplicationMenu(menu)
