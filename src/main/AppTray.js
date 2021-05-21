@@ -2,6 +2,7 @@ const { Tray, Menu, app, globalShortcut } = require('electron');
 const windowStateKeeper = require('electron-window-state')
 const LauncherWindow = require('./LauncherWindow')
 const MainWindow = require('./MainWindow')
+const googleSignIn = require('./google-oauth')
 
 let launcherWindow, mainWindow, stateKeeper, appIsQuiting
 
@@ -25,6 +26,12 @@ class AppTray extends Tray {
                     label: 'Open',
                     click: showMainWindow
                 },
+                { type: 'separator' },
+                {
+                    label: 'Google SignIn',
+                    click: tryGoogleSignIn
+                },
+                { type: 'separator' },
                 {
                     label: 'Quit',
                     click: quitApp
@@ -32,6 +39,12 @@ class AppTray extends Tray {
             ])
         ))
     }
+}
+
+function tryGoogleSignIn() {
+    googleSignIn().then(data => {
+        console.info(data)
+    })
 }
 
 function quitApp() {

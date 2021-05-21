@@ -1,4 +1,5 @@
 const { shell } = require('electron')
+const googleSignIn = require('./google-oauth')
 
 module.exports = mainWinContents => {
     const template = [
@@ -48,6 +49,13 @@ module.exports = mainWinContents => {
                     label: 'Learn more',
                     click: () => {
                         shell.openExternal('https://electronjs.org')
+                    }
+                }, {
+                    label: 'Google SignIn',
+                    click: () => {
+                        googleSignIn().then(tokens => {
+                            mainWinContents.send('menu-google-signin', tokens)
+                        })
                     }
                 }
             ]

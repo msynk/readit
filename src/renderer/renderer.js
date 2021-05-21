@@ -26,6 +26,9 @@ electronProxy.ipc.on('menu-open-browser-item', e => {
 electronProxy.ipc.on('menu-search-item', e => {
     searchInput.focus()
 })
+electronProxy.ipc.on('menu-google-signin', (e, tokens) => {
+    alert(tokens.access_token)
+})
 
 window.addEventListener('message', e => {
     if (e.data.action === 'delete-reader-item') {
