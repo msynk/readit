@@ -1,5 +1,6 @@
 const { app } = require('electron')
 const AppTray = require('./AppTray')
+const updater = require('./updater')
 
 let tray
 
@@ -16,5 +17,8 @@ module.exports = function initApp(trayIconPath, launcherFilePath, indexFilePath,
 
     function ready() {
         tray = new AppTray(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath)
+
+        updater.init()
+        setTimeout(updater.check, 1000);
     }
 }

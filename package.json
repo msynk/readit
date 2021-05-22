@@ -1,6 +1,6 @@
 {
   "name": "Readit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Readit Electron Application",
   "main": "src/main.js",
   "scripts": {
@@ -23,6 +23,8 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "electron-log": "^4.3.5",
+    "electron-updater": "^4.3.9",
     "electron-window-state": "^5.0.3",
     "node-fetch": "^2.6.1",
     "qs": "^6.10.1"

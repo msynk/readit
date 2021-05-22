@@ -3,6 +3,7 @@ const windowStateKeeper = require('electron-window-state')
 const LauncherWindow = require('./LauncherWindow')
 const MainWindow = require('./MainWindow')
 const googleSignIn = require('./google-oauth')
+const updater = require('./updater')
 
 let launcherWindow, mainWindow, stateKeeper, appIsQuiting
 
@@ -30,6 +31,11 @@ class AppTray extends Tray {
                 {
                     label: 'Google SignIn',
                     click: tryGoogleSignIn
+                },
+                { type: 'separator' },
+                {
+                    label: 'Check for updates',
+                    click: updater.check
                 },
                 { type: 'separator' },
                 {
