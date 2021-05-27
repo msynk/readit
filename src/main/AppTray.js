@@ -7,11 +7,14 @@ const updater = require('./updater')
 
 let launcherWindow, mainWindow, stateKeeper, appIsQuiting
 class AppTray extends Tray {
+    static launcherWindow
+
     constructor(iconPath, launcherFilePath, indexFilePath, prelaodFilePath) {
         super(iconPath)
 
         launcherWindow = new LauncherWindow(launcherFilePath, prelaodFilePath)
         launcherWindow.webContents.openDevTools()
+        AppTray.launcherWindow = launcherWindow
 
         stateKeeper = windowStateKeeper({ defaultWidth: 500, defaultHeight: 500 })
         createMainWindow(indexFilePath, prelaodFilePath)
