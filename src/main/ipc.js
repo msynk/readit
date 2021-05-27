@@ -1,4 +1,4 @@
-const { ipcMain } = require('electron')
+const { ipcMain, clipboard } = require('electron')
 const readItem = require('./read-item')
 const { launcherWindow } = require('./AppTray')
 const setData = require('./jxa/set-data')
@@ -10,10 +10,11 @@ module.exports = function initIpc() {
 
     ipcMain.on('paste', (e, value) => {
         console.log('paste: ', value)
+        clipboard.writeText(value)
         if (process.platform === 'darwin') {
             setTimeout(() => {
                 setData.toActiveWindow(value)
-            }, 200);
+            }, 500);
             launcherWindow.hide()
         }
     })
