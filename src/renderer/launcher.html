@@ -36,9 +36,9 @@
     electronProxy.ipc.on(
       "front-most-app-data",
       (e, title, url, copiedContent) => {
-        console.log("name: ", name);
+        console.log("title: ", title);
         console.log("url: ", url);
-        console.log("content: ", content);
+        console.log("copiedContent: ", copiedContent);
       }
     );
 
