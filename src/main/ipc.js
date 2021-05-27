@@ -3,7 +3,11 @@ const readItem = require('./read-item')
 const { AppTray } = require('./AppTray')
 const setData = require('./jxa/set-data')
 
-module.exports = function initIpc() {
+module.exports = {
+    init
+}
+
+function init() {
     ipcMain.handle('new-item', (e, url) => {
         return readItem(url)
     })
@@ -15,7 +19,7 @@ module.exports = function initIpc() {
         if (process.platform === 'darwin') {
             setTimeout(() => {
                 setData.toActiveWindow(value)
-            }, 500);
+            }, 100);
         }
     })
 }

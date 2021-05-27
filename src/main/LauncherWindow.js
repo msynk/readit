@@ -1,10 +1,11 @@
 const { BrowserWindow, app } = require('electron');
+const getData = require('./jxa/get-data')
 
 class LauncherWindow extends BrowserWindow {
     constructor(filePath, preloadFilePath) {
         super({
-            width: 400,
-            height: 300,
+            width: 800,
+            height: 400,
             frame: false,
             resizable: false,
             show: false,
@@ -32,6 +33,17 @@ class LauncherWindow extends BrowserWindow {
             this.on('hide', e => {
                 app.hide()
             })
+        }
+    }
+
+    show() {
+        if (process.platform === 'darwin') {
+            getData.fromFrontMost().then(({ title, url, copiedContent }) => {
+                this.webContents.send('front-most-app-data', title, url, copiedContent)
+                super.show()
+            })
+        } else {
+            super.show()
         }
     }
 }

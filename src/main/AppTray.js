@@ -13,7 +13,7 @@ class AppTray extends Tray {
         super(iconPath)
 
         launcherWindow = new LauncherWindow(launcherFilePath, prelaodFilePath)
-        launcherWindow.webContents.openDevTools()
+        //launcherWindow.webContents.openDevTools()
         AppTray.launcherWindow = launcherWindow
 
         stateKeeper = windowStateKeeper({ defaultWidth: 500, defaultHeight: 500 })

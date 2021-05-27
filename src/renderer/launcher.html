@@ -33,6 +33,15 @@
   </div>
   <script src="sw-registration.js"></script>
   <script>
+    electronProxy.ipc.on(
+      "front-most-app-data",
+      (e, title, url, copiedContent) => {
+        console.log("name: ", name);
+        console.log("url: ", url);
+        console.log("content: ", content);
+      }
+    );
+
     const textArea = document.querySelector("textarea");
     textArea.addEventListener("keyup", (e) => {
       if (e.key.toLocaleLowerCase() === "escape") {

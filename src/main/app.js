@@ -4,7 +4,11 @@ const updater = require('./updater')
 
 let tray
 
-module.exports = function initApp(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath) {
+module.exports = {
+    init
+}
+
+function init(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath) {
     app.on('ready', ready)
 
     // app.on('window-all-closed', e => {
