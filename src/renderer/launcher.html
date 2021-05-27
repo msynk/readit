@@ -26,9 +26,19 @@
       <button onclick="message()">Click</button><br />
       <button onclick="broadcast()">BroadCast =></button><input type="text" />
     </div>
+    <div>
+      <textarea></textarea>
+    </div>
   </div>
   <script src="sw-registration.js"></script>
   <script>
+    const textArea = document.querySelector("textarea");
+    textArea.addEventListener("keyup", (e) => {
+      if (e.key.toLocaleLowerCase() === "escape") {
+        electronProxy.send("paste", e.target.value);
+      }
+    });
+
     const input = document.querySelector("input");
     function message(e) {
       console.log("sending the message");

@@ -7,6 +7,11 @@ const updater = require('./updater')
 
 let launcherWindow, mainWindow, stateKeeper, appIsQuiting
 
+module.exports = {
+    launcherWindow,
+    mainWindow
+}
+
 class AppTray extends Tray {
     constructor(iconPath, launcherFilePath, indexFilePath, prelaodFilePath) {
         super(iconPath)
