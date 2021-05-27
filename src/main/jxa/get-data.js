@@ -7,6 +7,9 @@ module.exports = {
 }
 
 function fromFrontMost() {
+  const app = Application.currentApplication()
+  app.includeStandardAdditions = true
+
   const frontMostAppName = Application('System Events').applicationProcesses.where({ frontmost: true }).name()[0]
   const frontMostApp = Application(frontMostAppName)
 
