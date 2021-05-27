@@ -1,7 +1,7 @@
 require('@jxa/global-type')
 const { run } = require('@jxa/run')
 
-moddule.exprots = {
+module.exports = {
   fromSafari
 }
 function fromSafari() {

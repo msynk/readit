@@ -1,5 +1,5 @@
 const { app } = require('electron')
-const AppTray = require('./AppTray')
+const { AppTray } = require('./AppTray')
 const updater = require('./updater')
 
 let tray

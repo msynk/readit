@@ -9,7 +9,8 @@
     }
     p,
     button,
-    input {
+    input,
+    textarea {
       -webkit-app-region: none;
     }
   </style>
@@ -35,7 +36,9 @@
     const textArea = document.querySelector("textarea");
     textArea.addEventListener("keyup", (e) => {
       if (e.key.toLocaleLowerCase() === "escape") {
-        electronProxy.send("paste", e.target.value);
+        const value = e.target.value;
+        console.log("paste: ", value);
+        electronProxy.ipc.send("paste", value);
       }
     });
 

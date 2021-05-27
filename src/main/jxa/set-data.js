@@ -1,7 +1,7 @@
 require('@jxa/global-type')
-const { run } = requrie('@jxa/run')
+const { run } = require('@jxa/run')
 
-moddule.exprots = {
+module.exports = {
   toActiveWindow
 }
 function toActiveWindow(content) {

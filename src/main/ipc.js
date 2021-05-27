@@ -9,6 +9,7 @@ module.exports = function initIpc() {
     })
 
     ipcMain.on('paste', (e, value) => {
+        console.log('paste: ', value)
         if (process.platform === 'darwin') {
             setTimeout(() => {
                 setData.toActiveWindow(value)

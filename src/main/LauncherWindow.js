@@ -1,4 +1,4 @@
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, app } = require('electron');
 
 class LauncherWindow extends BrowserWindow {
     constructor(filePath, preloadFilePath) {
@@ -26,8 +26,8 @@ class LauncherWindow extends BrowserWindow {
         // })
 
         this.loadFile(filePath)
-        this.on('blur', this.hide())
-        
+        this.on('blur', () => this.hide())
+
         if (process.platform === 'darwin') {
             this.on('hide', e => {
                 app.hide()

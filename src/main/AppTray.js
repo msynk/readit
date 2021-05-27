@@ -6,17 +6,12 @@ const googleSignIn = require('./google-oauth')
 const updater = require('./updater')
 
 let launcherWindow, mainWindow, stateKeeper, appIsQuiting
-
-module.exports = {
-    launcherWindow,
-    mainWindow
-}
-
 class AppTray extends Tray {
     constructor(iconPath, launcherFilePath, indexFilePath, prelaodFilePath) {
         super(iconPath)
 
-        launcherWindow = new LauncherWindow(launcherFilePath)
+        launcherWindow = new LauncherWindow(launcherFilePath, prelaodFilePath)
+        launcherWindow.webContents.openDevTools()
 
         stateKeeper = windowStateKeeper({ defaultWidth: 500, defaultHeight: 500 })
         createMainWindow(indexFilePath, prelaodFilePath)
@@ -80,4 +75,8 @@ function createMainWindow(indexFilePath, prelaodFilePath) {
     })
 }
 
-module.exports = AppTray;
+module.exports = {
+    launcherWindow,
+    mainWindow,
+    AppTray
+}
