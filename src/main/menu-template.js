@@ -1,4 +1,4 @@
-const { shell } = require('electron')
+const { shell, clipboard } = require('electron')
 const googleSignIn = require('./google-oauth')
 
 module.exports = mainWinContents => {
@@ -44,20 +44,19 @@ module.exports = mainWinContents => {
             role: 'windowMenu'
         }, {
             role: 'help',
-            submenu: [
-                {
-                    label: 'Learn more',
-                    click: () => {
-                        shell.openExternal('https://electronjs.org')
-                    }
-                }, {
-                    label: 'Google SignIn',
-                    click: () => {
-                        googleSignIn().then(tokens => {
-                            mainWinContents.send('menu-google-signin', tokens)
-                        })
-                    }
+            submenu: [{
+                label: 'Learn more',
+                click: () => {
+                    shell.openExternal('https://electronjs.org')
                 }
+            }, {
+                label: 'Google SignIn',
+                click: () => {
+                    googleSignIn().then(tokens => {
+                        mainWinContents.send('menu-google-signin', tokens)
+                    })
+                }
+            }
             ]
         }
     ]
@@ -67,9 +66,30 @@ module.exports = mainWinContents => {
     if (process.env.NODE_ENV !== 'production') {
         template.push({
             label: 'Develop',
-            submenu: [
-                { role: 'reload' },
-                { role: 'toggleDevTools' }
+            submenu: [{
+                label: 'Copy Text',
+                click: () => {
+                    clipboard.writeText('hello world')
+                    //clipboard.writeHTML('<h1>hello world!</h1>')
+                }
+            }, {
+                label: 'Copy Html',
+                click: () => {
+                    //clipboard.writeText('hello world')
+                    clipboard.writeHTML('<h1>hello world!</h1>')
+                }
+            }, {
+                label: 'Copy All',
+                click: () => {
+                    //clipboard.writeText('hello world')
+                    clipboard.write({
+                        text: 'hello world!',
+                        html: '<h1>hello world!</h1>'
+                    })
+                }
+            },
+            { role: 'reload' },
+            { role: 'toggleDevTools' }
             ]
         });
     }

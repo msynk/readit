@@ -12,7 +12,9 @@ const GOOGLE_TOKEN_URL = 'https://www.googleapis.com/oauth2/v4/token'
 
 module.exports = async function googleSignIn() {
     const code = await signInWithPopup()
+    console.log(code)
     const tokens = await fetchAccessTokens(code)
+    console.log(tokens)
     return tokens
     //const { id, email, name } = await fetchGoogleProfile(tokens.access_token)
     // const providerUser = {
