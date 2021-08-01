@@ -21,6 +21,18 @@ class MainWindow extends BrowserWindow {
 
         //this.webContents.openDevTools()
 
+        this.webContents.on('will-navigate', (event, url) => {
+            console.log('will-navigate', url)
+            //console.log(event)
+            event.preventDefault()
+        })
+
+        this.webContents.on('new-window', (event, url) => {
+            console.log('new-window', url)
+            //console.log(event)
+            event.preventDefault()
+        })
+
         const menu = Menu.buildFromTemplate(menuTemplate(this.webContents))
 
         Menu.setApplicationMenu(menu)

@@ -56,6 +56,21 @@ module.exports = mainWinContents => {
                         mainWinContents.send('menu-google-signin', tokens)
                     })
                 }
+            }, {
+                label: 'Request Permission',
+                click: () => {
+                    console.log('norification permission:', Notification.permission)
+                    if (!("Notification" in window)) {
+                        return console.log("This browser does not support desktop notification");
+                    }
+                    Notification.requestPermission().then(function (permission) {
+                        if (permission === "granted") {
+                            var notification = new Notification("Hi there!");
+                        } else {
+                            console.log('permission denied:', permission)
+                        }
+                    });
+                }
             }
             ]
         }

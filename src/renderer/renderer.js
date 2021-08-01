@@ -6,7 +6,8 @@ const el = document.getElementById.bind(document),
     urlInput = el('url-input'),
     itemsDiv = el('items-div'),
     searchInput = el('search-input'),
-    allItems = JSON.parse(localStorage.getItem('readit-items')) || []
+    requestPermissionButton = el('request-permission'),
+    allItems = JSON.parse(localStorage.getItem('readit-items')) || [];
 
 allItems.forEach(renderItem)
 
@@ -80,4 +81,19 @@ urlInput.addEventListener('keyup', e => {
 let readerJs
 electronProxy.readFile('reader-script.js', (err, data) => {
     readerJs = data.toString()
+})
+
+
+requestPermissionButton.addEventListener('click', e => {
+    console.log('norification permission:', Notification.permission)
+    if (!("Notification" in window)) {
+      return console.log("This browser does not support desktop notification");
+    }
+    Notification.requestPermission().then(function (permission) {
+      if (permission === "granted") {
+        var notification = new Notification("Hi there!");
+      } else {
+        console.log('permission denied:', permission)
+      }
+    });
 })
