@@ -1,4 +1,4 @@
-const { app } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const { AppTray } = require('./AppTray')
 const updater = require('./updater')
 
@@ -8,7 +8,7 @@ module.exports = {
     init
 }
 
-function init(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath) {
+function init(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath, fcmFilePath, fcmPrelaodFilePath, pushyFilePath, pushyPrelaodFilePath) {
     app.on('ready', ready)
 
     // app.on('window-all-closed', e => {
@@ -20,7 +20,7 @@ function init(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath) {
     })
 
     function ready() {
-        tray = new AppTray(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath)
+        tray = new AppTray(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath, fcmFilePath, fcmPrelaodFilePath, pushyFilePath, pushyPrelaodFilePath)
 
         updater.init()
         setTimeout(updater.check, 1000);

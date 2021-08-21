@@ -1,4 +1,4 @@
-require('@jxa/global-type')
+//require('@jxa/global-type')
 const { run } = require('@jxa/run')
 
 module.exports = {

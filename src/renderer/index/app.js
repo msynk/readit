@@ -87,13 +87,13 @@ electronProxy.readFile('reader-script.js', (err, data) => {
 requestPermissionButton.addEventListener('click', e => {
     console.log('norification permission:', Notification.permission)
     if (!("Notification" in window)) {
-      return console.log("This browser does not support desktop notification");
+        return console.log("This browser does not support desktop notification");
     }
     Notification.requestPermission().then(function (permission) {
-      if (permission === "granted") {
-        var notification = new Notification("Hi there!");
-      } else {
-        console.log('permission denied:', permission)
-      }
+        if (permission === "granted") {
+            var notification = new Notification("Hi there!", { body: 'Hellow from the Readit app.' });
+        } else {
+            console.log('permission denied:', permission)
+        }
     });
 })

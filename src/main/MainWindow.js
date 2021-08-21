@@ -15,7 +15,7 @@ class MainWindow extends BrowserWindow {
             show: false,
             webPreferences: {
                 contextIsolation: false,
-                preload: preloadFilePath
+                preload: preloadFilePath,
             }
         })
 

@@ -1,15 +1,18 @@
-const { Tray, Menu, app, globalShortcut } = require('electron');
+const { Tray, Menu, app, globalShortcut, BrowserWindow } = require('electron');
 const windowStateKeeper = require('electron-window-state')
 const LauncherWindow = require('./LauncherWindow')
 const MainWindow = require('./MainWindow')
 const googleSignIn = require('./google-oauth')
 const updater = require('./updater')
+const pushReceiver = require('electron-push-receiver')
+const Pushy = require('pushy-electron')
 
-let launcherWindow, mainWindow, stateKeeper, appIsQuiting
+
+let launcherWindow, mainWindow, fcmWindow, pushyWindow, stateKeeper, appIsQuiting
 class AppTray extends Tray {
     static launcherWindow
 
-    constructor(iconPath, launcherFilePath, indexFilePath, prelaodFilePath) {
+    constructor(iconPath, launcherFilePath, indexFilePath, prelaodFilePath, fcmFilePath, fcmPrelaodFilePath, pushyFilePath, pushyPrelaodFilePath) {
         super(iconPath)
 
         launcherWindow = new LauncherWindow(launcherFilePath, prelaodFilePath)
@@ -18,6 +21,11 @@ class AppTray extends Tray {
 
         stateKeeper = windowStateKeeper({ defaultWidth: 500, defaultHeight: 500 })
         createMainWindow(indexFilePath, prelaodFilePath)
+
+        createFcmWindow(fcmFilePath, fcmPrelaodFilePath)
+        createPushyWindow(pushyFilePath, pushyPrelaodFilePath)
+
+        showPushyWindow()
 
         globalShortcut.register('Alt+Space', launcherWindow.show.bind(launcherWindow));
         globalShortcut.register('Alt+Shift+Space', showMainWindow);
@@ -30,6 +38,15 @@ class AppTray extends Tray {
                     label: 'Open',
                     click: showMainWindow
                 },
+                {
+                    label: 'FCM',
+                    click: showFcmWindow
+                },
+                {
+                    label: 'Pushy',
+                    click: showPushyWindow
+                },
+                { type: 'separator' },
                 { type: 'separator' },
                 {
                     label: 'Google SignIn',
@@ -75,6 +92,73 @@ function createMainWindow(indexFilePath, prelaodFilePath) {
         stateKeeper.unmanage(mainWindow)
         mainWindow = null
         createMainWindow(indexFilePath, prelaodFilePath)
+    })
+}
+
+function showFcmWindow() {
+    fcmWindow.show()
+    fcmWindow.webContents.openDevTools()
+}
+
+function createFcmWindow(filePath, prelaodFilePath) {
+    if (appIsQuiting) return
+    fcmWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        show: false,
+        webPreferences: {
+            contextIsolation: false,
+            preload: prelaodFilePath
+        }
+    })
+    fcmWindow.loadFile(filePath)
+    pushReceiver.setup(fcmWindow.webContents)
+    fcmWindow.on('closed', e => {
+        fcmWindow = null
+        createFcmWindow(filePath, prelaodFilePath)
+    })
+}
+
+function showPushyWindow() {
+    pushyWindow.show()
+    pushyWindow.webContents.openDevTools()
+}
+
+function createPushyWindow(filePath, prelaodFilePath) {
+    if (appIsQuiting) return
+    pushyWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        show: false,
+        webPreferences: {
+            contextIsolation: false,
+            preload: prelaodFilePath
+        }
+    })
+    pushyWindow.loadFile(filePath)
+
+    pushyWindow.webContents.on('did-finish-load', () => {
+        Pushy.listen();
+
+        // Register device for push notifications
+        Pushy.register({ appId: '611fb543cdb7b1744a3b5e8a' }).then((deviceToken) => {
+            // Display an alert with device token
+            console.log(deviceToken);
+        }).catch((err) => {
+            // Display error dialog
+            Pushy.alert(pushyWindow, 'Pushy registration error: ' + err.message);
+        });
+
+        // Listen for push notifications
+        Pushy.setNotificationListener((data) => {
+            // Display an alert with the "message" payload value
+            Pushy.alert(pushyWindow, 'Received notification: ' + data.message);
+        });
+    });
+
+    pushyWindow.on('closed', e => {
+        pushyWindow = null
+        createPushyWindow(filePath, prelaodFilePath)
     })
 }
 
