@@ -1,6 +1,4 @@
-const { BrowserWindow, Menu } = require("electron");
-const menuTemplate = require('./menu-template')
-
+const { BrowserWindow } = require("electron");
 class MainWindow extends BrowserWindow {
 
     constructor(state, filePath, preloadFilePath) {
@@ -13,6 +11,7 @@ class MainWindow extends BrowserWindow {
             maxWidth: 650,
             minHeight: 300,
             show: false,
+            titleBarStyle: 'hiddenInset',
             webPreferences: {
                 contextIsolation: false,
                 preload: preloadFilePath,
@@ -32,10 +31,6 @@ class MainWindow extends BrowserWindow {
             //console.log(event)
             event.preventDefault()
         })
-
-        const menu = Menu.buildFromTemplate(menuTemplate(this.webContents))
-
-        Menu.setApplicationMenu(menu)
 
         this.loadFile(filePath)
     }

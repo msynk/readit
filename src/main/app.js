@@ -1,14 +1,15 @@
-const { app, BrowserWindow } = require('electron')
+const { app } = require('electron')
 const { AppTray } = require('./AppTray')
 const updater = require('./updater')
 
 let tray
 
 module.exports = {
-    init
+    initApp,
+    quitApp
 }
 
-function init(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath, fcmFilePath, fcmPrelaodFilePath, pushyFilePath, pushyPrelaodFilePath) {
+function initApp(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath, fcmFilePath, fcmPrelaodFilePath, pushyFilePath, pushyPrelaodFilePath) {
     app.on('ready', ready)
 
     // app.on('window-all-closed', e => {
@@ -25,4 +26,8 @@ function init(trayIconPath, launcherFilePath, indexFilePath, prelaodFilePath, fc
         updater.init()
         setTimeout(updater.check, 1000);
     }
+}
+
+function quitApp() {
+    tray?.quit()
 }

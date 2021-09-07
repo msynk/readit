@@ -1,11 +1,12 @@
 const { Tray, Menu, app, globalShortcut, BrowserWindow } = require('electron');
+const Pushy = require('pushy-electron')
+const pushReceiver = require('electron-push-receiver')
 const windowStateKeeper = require('electron-window-state')
 const LauncherWindow = require('./LauncherWindow')
 const MainWindow = require('./MainWindow')
 const googleSignIn = require('./google-oauth')
 const updater = require('./updater')
-const pushReceiver = require('electron-push-receiver')
-const Pushy = require('pushy-electron')
+const menuTemplate = require('./menu-template')
 
 
 let launcherWindow, mainWindow, fcmWindow, pushyWindow, stateKeeper, appIsQuiting
@@ -14,6 +15,9 @@ class AppTray extends Tray {
 
     constructor(iconPath, launcherFilePath, indexFilePath, prelaodFilePath, fcmFilePath, fcmPrelaodFilePath, pushyFilePath, pushyPrelaodFilePath) {
         super(iconPath)
+
+        const menu = Menu.buildFromTemplate(menuTemplate(this.webContents))
+        Menu.setApplicationMenu(menu)
 
         launcherWindow = new LauncherWindow(launcherFilePath, prelaodFilePath)
         //launcherWindow.webContents.openDevTools()
@@ -25,7 +29,10 @@ class AppTray extends Tray {
         createFcmWindow(fcmFilePath, fcmPrelaodFilePath)
         createPushyWindow(pushyFilePath, pushyPrelaodFilePath)
 
-        showPushyWindow()
+        // showFcmWindow()
+        // showPushyWindow()
+
+        showMainWindow()
 
         globalShortcut.register('Alt+Space', launcherWindow.show.bind(launcherWindow));
         globalShortcut.register('Alt+Shift+Space', showMainWindow);
@@ -65,6 +72,10 @@ class AppTray extends Tray {
             ])
         ))
     }
+
+    quit() {
+        quitApp()
+    }
 }
 
 function tryGoogleSignIn() {
@@ -75,8 +86,12 @@ function tryGoogleSignIn() {
 
 function quitApp() {
     appIsQuiting = true
-    launcherWindow.close()
-    mainWindow.close()
+    try {
+        launcherWindow.close()
+        mainWindow.close()
+    } catch (error) {
+        console.log(error)
+    }
     app.quit()
 }
 
