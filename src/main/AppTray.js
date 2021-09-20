@@ -34,7 +34,7 @@ class AppTray extends Tray {
 
         showMainWindow()
 
-        globalShortcut.register('Alt+Space', launcherWindow.show.bind(launcherWindow));
+        globalShortcut.register('Ctrl+Space', launcherWindow.show.bind(launcherWindow));
         globalShortcut.register('Alt+Shift+Space', showMainWindow);
 
         this.setToolTip('Readit App')

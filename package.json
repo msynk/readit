@@ -15,7 +15,8 @@
     "watch": "nodemon --exec npm start",
     "build": "electron-builder",
     "publish": "electron-builder -p 'onTagOrDraft'",
-    "cert": "electron-builder create-self-signed-cert -p msynk"
+    "cert": "electron-builder create-self-signed-cert -p msynk",
+    "rebuild": "electron-rebuild"
   },
   "dependencies": {
     "@jxa/run": "^1.3.4",
@@ -25,12 +26,14 @@
     "electron-window-state": "^5.0.3",
     "node-fetch": "^2.6.1",
     "pushy-electron": "^1.0.8",
-    "qs": "^6.10.1"
+    "qs": "^6.10.1",
+    "robotjs": "^0.6.0"
   },
   "devDependencies": {
     "@jxa/global-type": "^1.3.4",
     "electron": "^12.0.7",
     "electron-builder": "^22.10.5",
+    "electron-rebuild": "^3.2.3",
     "nodemon": "^2.0.7"
   },
   "build": {

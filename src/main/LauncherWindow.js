@@ -1,5 +1,6 @@
-const { BrowserWindow, app } = require('electron');
-const getData = require('./jxa/get-data')
+const { BrowserWindow, app, clipboard } = require('electron')
+const { keyTap } = require('robotjs')
+const jxaGetData = require('./jxa/jxa-get-data')
 
 class LauncherWindow extends BrowserWindow {
     constructor(filePath, preloadFilePath) {
@@ -38,12 +39,20 @@ class LauncherWindow extends BrowserWindow {
 
     show() {
         if (process.platform === 'darwin') {
-            getData.fromFrontMost().then(({ title, url, copiedContent }) => {
+            jxaGetData.fromFrontMost().then(({ title, url, copiedContent }) => {
                 this.webContents.send('front-most-app-data', title, url, copiedContent)
                 super.show()
             })
         } else {
-            super.show()
+            const currentClipboardContent = clipboard.readText()
+            clipboard.clear()
+            keyTap('c', 'control')
+            setTimeout(() => {
+                const copiedContent = clipboard.readText()
+                clipboard.writeText(currentClipboardContent)
+                this.webContents.send('front-most-app-data', '', '', copiedContent)
+                super.show()
+            }, 200)
         }
     }
 }
